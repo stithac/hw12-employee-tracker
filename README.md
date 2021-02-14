@@ -40,6 +40,8 @@ npm i
 ## Features
 * The application has an *EmployeeTracker-schema.sql* file that contains the schema.  Note: sample data is also included in the schema to demonstrate the proper use.
 
+Video demo of the application: *Note: The application may have been slightly updated since recording demo*
+[![Video](./Assets/screenshot.PNG)](https://drive.google.com/file/d/1b9-aPhhIyiap4yodQx7JhXBcmJ2Ksn0K/view)
 
 ## Known Bugs
 Site has no known bugs

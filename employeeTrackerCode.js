@@ -20,6 +20,7 @@ const connection = mysql.createConnection({
 
 connection.connect((err) => {
     if (err) throw err;
+    console.log("\nWelcome to the ACS Employee Tracker!\n")
     runSearch();
 });
 
@@ -38,7 +39,7 @@ const runSearch = () => {
       .prompt({
         name: 'action',
         type: 'rawlist',
-        message: 'What would you like to do?',
+        message: 'What would you like to do?\n',
         choices: [
           'View All Employees',
           'View All Employees By Department',
@@ -252,7 +253,7 @@ const removeEmployee = () =>{
                     message: "Which Employee do you want to remove?",
                     choices () {
                         const results = JSON.parse(JSON.stringify(res));
-                        console.log(results);
+                        // console.log(results);
                         const choiceArray = [];
 
                         results.forEach(({employee}) => {
@@ -393,7 +394,7 @@ const updateRole = () => {
                     message: "Which Employee's role do you want to update?",
                     choices () {
                         const results = JSON.parse(JSON.stringify(res));
-                        console.log(results);
+                        // console.log(results);
                         const choiceArray = [];
 
                         res.forEach(({first_name, last_name}) => {
@@ -420,7 +421,7 @@ const updateRole = () => {
 
                     const results = JSON.parse(JSON.stringify(res));
 
-                    console.log(results[0].id); // Testing
+                    // console.log(results[0].id); // Testing
 
                     connection.query(
                     'UPDATE employee SET ? WHERE ?',
@@ -493,15 +494,15 @@ const updateManager = () => {
                 },
             ])
             .then((answer) => {
-                console.log(answer);
+                // console.log(answer);
                 connection.query("SELECT id from employee WHERE?", [{first_name:answer.manager.split(" ")[0]}], (err,res) => {
-                    console.log(res);
+                    // console.log(res);
 
                     console.log("Updating the role for " + answer.employee + " to " + answer.role);
 
                     const results = JSON.parse(JSON.stringify(res));
 
-                    console.log(results[0].id); // Testing
+                    // console.log(results[0].id); // Testing
 
                     connection.query(
                     'UPDATE employee SET ? WHERE ?',
