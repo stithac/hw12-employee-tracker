@@ -15,7 +15,6 @@ CREATE TABLE role (
   salary DECIMAL (10,2),
   department_id INT,
   PRIMARY KEY (id)
-  -- FOREIGN KEY (department_id) REFERENCES department(id)
 );
 
 CREATE TABLE employee (
@@ -24,30 +23,38 @@ CREATE TABLE employee (
   last_name VARCHAR(30),
   role_id INT,
   manager_id INT,
-  PRIMARY KEY (id),
-  FOREIGN KEY (role_id) REFERENCES role(id),
-  FOREIGN KEY (manager_id) REFERENCES employee(id)
+  PRIMARY KEY (id)
 );
-INSERT INTO employee (first_name, last_name)
-VALUES ("N/A", "N/A");
-
-INSERT INTO role (title, salary, department_id)
-VALUES ('Project Manager', 175000.00),
-	   ('Business Lead', 155000.00),
-       ('Business Analyst - Senior', 145000.00),
-       ('Business Analyst - Mid', 122000.00),
-       ('Business Analyst - Jr', 75000.00),
-       ('Infrastructure Lead', 160000.00),
-       ('Facilities Manager', 110000.00),
-       ('QA Lead', 115000.00),
-       ('Technical Lead', 170000.00),
-       ('Developer - Senior', 160000.00),
-       ('Developer - Mid', 145000.00),
-       ('Developer - Jr', 80000.00);
 
 INSERT INTO department (name)
 VALUES ('Project Management'),
-	   ('Information Technology'),
-	   ('Business Analysis'),
+	     ('Information Technology'),
+	     ('Business Analysis'),
        ('Facilities');
+
+INSERT INTO role (title, salary, department_id)
+VALUES ('Project Manager', 175000.00, 1),
+	     ('Business Lead', 155000.00, 3),
+       ('Business Analyst - Senior', 145000.00, 3),
+       ('Business Analyst - Mid', 122000.00, 3),
+       ('Business Analyst - Jr', 75000.00, 3),
+       ('Infrastructure Lead', 160000.00, 4),
+       ('Facilities Manager', 110000.00, 4),
+       ('QA Lead', 115000.00, 4),
+       ('Technical Lead', 170000.00, 2),
+       ('Developer - Senior', 160000.00, 2),
+       ('Developer - Mid', 145000.00, 2),
+       ('Developer - Jr', 80000.00, 2);
+
+INSERT INTO employee (first_name, last_name, role_id)
+VALUES ("Ashley", "Stith", 1);
+INSERT INTO employee (first_name, last_name, role_id, manager_id)
+VALUES ("Erika", "Stith", 2, 1),
+       ("Kwame", "Amoah", 6, 2),
+       ("Joshua", "Brown", 7, 3),
+       ("Brittany", "Johnson", 8, 3)
+
+
+
+
 

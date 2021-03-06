@@ -45,12 +45,15 @@ const runSearch = () => {
           'View All Employees By Department',
           'View All Employees By Manager',
           'Add Employee',
+          'Add Role',
+          'Add Department',
           'Remove Employee',
           'Remove Department',
           'Remove Role',
           'Update Employee Role',
           'Update Employee Manager',
           'View All Roles',
+          'View All Departments',
           'View Total Budget By Department'
         ],
       })
@@ -69,8 +72,16 @@ const runSearch = () => {
                 byManager();
                 break;
 
+            case 'Add Role':
+                addRole();
+                break;
+
             case 'Add Employee':
                 addEmployee();
+                break;
+
+            case 'Add Department':
+                addDepartment();
                 break;
 
             case 'Remove Department':
@@ -95,6 +106,10 @@ const runSearch = () => {
 
             case 'View All Roles':
                 allRoles();
+                break;
+
+            case 'View All Departments':
+                allDepartments();
                 break;
 
             case 'View Total Budget By Department':
@@ -155,6 +170,46 @@ const byManager = () =>{
 
 }
 
+const addRole = () => {
+
+    inquirer
+        .prompt([
+            {
+                name: 'title',
+                type: 'input',
+                message: "What is the title of the role?",
+            },
+            {
+                name: 'salary',
+                type: 'input',
+                message: "What is the salary of the role?",
+            },
+            {
+                name: 'department_id',
+                type: 'input',
+                message: "What is the id of the department of the role?",
+            }
+        ])
+        .then((answer) => {
+
+            const query = connection.query(
+                'INSERT INTO role SET ?', // INSERT into the departments table and set the values in the object below
+                {
+                  title: answer.title,
+                  salary: answer.salary,
+                  department_id: answer.department_id
+                },
+                (err, res) => {
+                  if (err) throw err;
+                  console.log(`${res.affectedRows} departments inserted!\n`);
+                  runSearch();
+                }
+              );
+
+        })
+
+}
+
 const addEmployee = () => {
 
     connection.query("SELECT * FROM employee WHERE first_name NOT LIKE 'N/A'", (err, res) => {
@@ -211,9 +266,6 @@ const addEmployee = () => {
             ], (err,res) => {
 
                 const results = JSON.parse(JSON.stringify(res));
-                // console.log(results); //Testing
-                // console.log(results[0][0].id); Testing
-                // console.log(results[1][0].id); Testing
 
                 const query2 = 'INSERT INTO employee SET ?';
                 connection.query(query2,
@@ -238,6 +290,36 @@ const addEmployee = () => {
       });
 
 }
+
+const addDepartment = () => {
+
+    inquirer
+        .prompt([
+            {
+                name: 'name',
+                type: 'input',
+                message: "What is the name of the department?",
+            }
+        ])
+        .then((answer) => {
+
+            const query = connection.query(
+                'INSERT INTO department SET ?', // INSERT into the departments table and set the values in the object below
+                {
+                  name: answer.name
+                },
+                (err, res) => {
+                  if (err) throw err;
+                  console.log(`${res.affectedRows} departments inserted!\n`);
+                  runSearch();
+                }
+              );
+
+        })
+
+}
+
+
 
 const removeEmployee = () =>{
     const query = "SELECT CONCAT(first_name, ' ', last_name) AS employee from employee WHERE first_name NOT LIKE 'N/A'";
@@ -531,6 +613,19 @@ const updateManager = () => {
 
 const allRoles = () => {
     const query = 'SELECT title, salary from role';
+
+    connection.query(query, (err, res) => {
+        if (err) throw err;
+
+        const results = JSON.parse(JSON.stringify(res));
+        console.table(results);
+
+        runSearch();
+    })
+}
+
+const allDepartments = () => {
+    const query = 'SELECT name from department';
 
     connection.query(query, (err, res) => {
         if (err) throw err;
